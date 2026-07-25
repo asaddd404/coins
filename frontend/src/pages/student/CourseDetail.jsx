@@ -6,8 +6,10 @@ import { getFullUrl } from '../../utils';
 import Modal from '../../components/Modal';
 import UserProfileModal from '../../components/UserProfileModal';
 import { BookOpen, Users, Trophy, Crown, Medal, Award, Send } from 'lucide-react';
+import { useToastStore } from '../../store/toastStore';
 
 export default function CourseDetail() {
+  const toast = useToastStore();
   const { id } = useParams();
   const { user } = useAuthStore();
   const [course, setCourse] = useState(null);
@@ -38,10 +40,10 @@ export default function CourseDetail() {
     setEnrolling(true);
     try {
       await createEnrollment({ group_id: groupId });
-      alert('Заявка успешно отправлена!');
+      toast.success('Заявка успешно отправлена!');
       fetchCourse();
     } catch (e) {
-      alert(e.response?.data?.detail || 'Ошибка отправки заявки');
+      toast.error(e.response?.data?.detail || 'Ошибка отправки заявки');
     } finally {
       setEnrolling(false);
     }

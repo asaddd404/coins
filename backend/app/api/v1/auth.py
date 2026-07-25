@@ -13,7 +13,7 @@ from app.schemas.user import UserResponse
 router = APIRouter(prefix='/auth', tags=['Auth'])
 
 
-@router.post('/register', response_model=TokenResponse, dependencies=[rate_limit(max_calls=5, window_seconds=900)])
+@router.post('/register', status_code=201, dependencies=[rate_limit(max_calls=5, window_seconds=900)])
 def register(data: RegisterRequest, db: Session = Depends(get_db)):
     if data.phone:
         if not re.match(r'^\+\d{10,15}$', data.phone):
@@ -42,16 +42,7 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(user)
 
-    # We shouldn't return tokens if inactive, but for now we'll allow token creation
-    # or actually we should just prevent login. Wait, if they are inactive, they can't login anyway.
-    # So we shouldn't return tokens upon registration.
-    # Actually, returning tokens is fine, but they won't be able to fetch anything.
-    # Let's change the login endpoint first.
-    token_data = {'sub': user.id, 'role': user.role}
-    return TokenResponse(
-        access_token=create_access_token(token_data),
-        refresh_token=create_refresh_token(token_data)
-    )
+    return {'detail': 'Аккаунт создан. Ожидайте активации менеджером.'}
 
 
 @router.post('/login', response_model=TokenResponse, dependencies=[rate_limit(max_calls=10, window_seconds=900)])

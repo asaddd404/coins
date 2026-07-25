@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { getUsers, resetUserPassword, deactivateUser, activateUser, deleteUser } from '../../api/client';
 import { Search, Key, UserMinus, UserCheck, Trash2, Phone, Calendar } from 'lucide-react';
+import { useToastStore } from '../../store/toastStore';
 
 export default function AdminUsers() {
+  const toast = useToastStore();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -26,9 +28,9 @@ export default function AdminUsers() {
     if (!pwd) return;
     try {
       await resetUserPassword(id, pwd);
-      alert('Пароль успешно изменен');
+      toast.success('Пароль успешно изменен');
     } catch (err) {
-      alert('Ошибка при смене пароля');
+      toast.error('Ошибка при смене пароля');
     }
   };
 
@@ -43,7 +45,7 @@ export default function AdminUsers() {
       fetchUsers();
     } catch (err) {
       console.error(err);
-      alert(err.response?.data?.detail || err.message || 'Ошибка изменения статуса');
+      toast.error(err.response?.data?.detail || err.message || 'Ошибка изменения статуса');
     }
   };
 
@@ -53,7 +55,7 @@ export default function AdminUsers() {
       await deleteUser(id);
       fetchUsers();
     } catch (err) {
-      alert(err.response?.data?.detail || 'Ошибка при удалении');
+      toast.error(err.response?.data?.detail || 'Ошибка при удалении');
     }
   };
 

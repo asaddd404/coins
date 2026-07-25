@@ -3,8 +3,10 @@ import { useParams } from 'react-router-dom';
 import { getGroup, getGroupStudents, createLesson, getLessons, createGrade, addStudentToGroup, removeStudentFromGroup, getGroupRanking } from '../../api/client';
 import Modal from '../../components/Modal';
 import { Trophy, MessageCircle, UserMinus, CheckCircle2 } from 'lucide-react';
+import { useToastStore } from '../../store/toastStore';
 
 export default function TeacherGroupDetail() {
+  const toast = useToastStore();
   const { id } = useParams();
   const [group, setGroup] = useState(null);
   const [students, setStudents] = useState([]);
@@ -49,7 +51,7 @@ export default function TeacherGroupDetail() {
       setAddStudentId('');
       fetchData();
     } catch (err) {
-      alert(err.response?.data?.detail || 'Ошибка добавления студента');
+      toast.error(err.response?.data?.detail || 'Ошибка добавления студента');
     }
   };
 
@@ -59,7 +61,7 @@ export default function TeacherGroupDetail() {
       await removeStudentFromGroup(id, studentId);
       fetchData();
     } catch (err) {
-      alert('Ошибка при удалении');
+      toast.error('Ошибка при удалении');
     }
   };
 
@@ -71,7 +73,7 @@ export default function TeacherGroupDetail() {
       setLessonModalOpen(false);
       fetchData();
     } catch (err) {
-      alert('Ошибка при создании урока');
+      toast.error('Ошибка при создании урока');
     }
   };
 
@@ -83,7 +85,7 @@ export default function TeacherGroupDetail() {
       setGradeForm({ student_id: '', lesson_id: '', grade: 5 });
       fetchData();
     } catch (err) {
-      alert(err.response?.data?.detail || 'Ошибка при выставлении оценки');
+      toast.error(err.response?.data?.detail || 'Ошибка при выставлении оценки');
     }
   };
 

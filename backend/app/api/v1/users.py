@@ -5,7 +5,7 @@ from app.core.database import get_db
 from app.core.deps import require_role, get_current_user
 from app.core.security import hash_password
 from app.models.user import User
-from app.schemas.user import UserResponse, ResetPasswordRequest
+from app.schemas.user import UserResponse, ResetPasswordRequest, UserPublicResponse
 
 router = APIRouter(prefix='/users', tags=['Users'])
 
@@ -27,7 +27,7 @@ def list_users(
     return query.order_by(User.created_at.desc()).all()
 
 
-@router.get('/{user_id}', response_model=UserResponse)
+@router.get('/{user_id}')
 def get_user(
     user_id: str,
     db: Session = Depends(get_db),
@@ -36,7 +36,9 @@ def get_user(
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail='User not found.')
-    return user
+    if current_user.role == 'manager' or current_user.id == user_id:
+        return UserResponse.model_validate(user)
+    return UserPublicResponse.model_validate(user)
 
 
 @router.patch('/{user_id}/reset-password')

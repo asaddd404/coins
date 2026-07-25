@@ -3,8 +3,10 @@ import { getCourses, createCourse, updateCourse, deleteCourse, getGroups, create
 import Modal from '../../components/Modal';
 import ImageUpload from '../../components/ImageUpload';
 import { Book, Trash2, Edit2, ChevronDown, ChevronUp } from 'lucide-react';
+import { useToastStore } from '../../store/toastStore';
 
 export default function AdminCourses() {
+  const toast = useToastStore();
   const [courses, setCourses] = useState([]);
   const [groups, setGroups] = useState([]);
   const [teachers, setTeachers] = useState([]);
@@ -48,7 +50,7 @@ export default function AdminCourses() {
       setCourseModalOpen(false);
       fetchData();
     } catch (err) {
-      alert('Ошибка при сохранении курса');
+      toast.error('Ошибка при сохранении курса');
     }
   };
 
@@ -58,7 +60,7 @@ export default function AdminCourses() {
       await deleteCourse(id);
       fetchData();
     } catch (err) {
-      alert('Ошибка удаления');
+      toast.error('Ошибка удаления');
     }
   };
 
@@ -73,7 +75,7 @@ export default function AdminCourses() {
       setGroupModalOpen(false);
       fetchData();
     } catch (err) {
-      alert('Ошибка при сохранении группы');
+      toast.error('Ошибка при сохранении группы');
     }
   };
 
@@ -83,7 +85,7 @@ export default function AdminCourses() {
       await deleteGroup(id);
       fetchData();
     } catch (err) {
-      alert('Ошибка удаления');
+      toast.error('Ошибка удаления');
     }
   };
 

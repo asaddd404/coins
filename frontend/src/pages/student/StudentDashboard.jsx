@@ -2,6 +2,32 @@ import { useState, useEffect } from 'react';
 import { getStudentDashboard } from '../../api/client';
 import { BookOpen, Calendar, Trophy, User, Clock, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { SkeletonGrid } from '../../components/Skeleton';
+
+const AnimatedNumber = ({ value }) => {
+  const [current, setCurrent] = useState(0);
+  useEffect(() => {
+    let start = 0;
+    const end = parseInt(value, 10);
+    if (isNaN(end)) return;
+    if (start === end) { setCurrent(end); return; }
+    
+    let totalMilSecDur = 1000;
+    let incrementTime = Math.abs(Math.floor(totalMilSecDur / 30));
+    
+    let timer = setInterval(() => {
+      start += Math.ceil(end / 30) || 1;
+      if (start >= end) {
+        setCurrent(end);
+        clearInterval(timer);
+      } else {
+        setCurrent(start);
+      }
+    }, incrementTime);
+    return () => clearInterval(timer);
+  }, [value]);
+  return <span>{current}</span>;
+};
 
 export default function StudentDashboard() {
   const [data, setData] = useState({ groups: [] });
@@ -14,8 +40,14 @@ export default function StudentDashboard() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-pulse text-indigo-400">Загрузка дашборда...</div></div>;
+  if (loading) return <div className="py-6"><SkeletonGrid count={2} /></div>;
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Доброе утро!';
+    if (hour < 18) return 'Добрый день!';
+    return 'Добрый вечер!';
+  };
   const dayNames = {
     'mon': 'Понедельник',
     'tue': 'Вторник',
@@ -31,7 +63,7 @@ export default function StudentDashboard() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-emerald-400">
-            Добро пожаловать!
+            {getGreeting()}
           </h1>
           <p className="text-slate-400 mt-1">Твои текущие группы и прогресс</p>
         </div>
@@ -80,7 +112,7 @@ export default function StudentDashboard() {
               </div>
               
               <div className="p-6 grid grid-cols-2 gap-4">
-                <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50">
+                <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50 glow-indigo">
                   <div className="flex items-center gap-2 text-indigo-400 mb-2">
                     <Trophy className="w-5 h-5" />
                     <span className="font-bold text-sm">Твой рейтинг</span>
@@ -88,10 +120,19 @@ export default function StudentDashboard() {
                   <div className="text-2xl font-extrabold text-white">
                     {g.rank ? `${g.rank} место` : '-'}
                   </div>
-                  <div className="text-sm text-slate-400 mt-1">{g.total_xp} XP</div>
+                  <div className="mt-3">
+                    <div className="flex justify-between text-xs mb-1">
+                      <span className="text-slate-400">Уровень {Math.floor(g.total_xp / 50) + 1}</span>
+                      <span className="text-indigo-400 font-bold"><AnimatedNumber value={g.total_xp} /> XP</span>
+                    </div>
+                    <div className="w-full bg-slate-800 rounded-full h-1.5 border border-slate-700">
+                      <div className="bg-gradient-to-r from-indigo-500 to-violet-500 h-1.5 rounded-full" style={{ width: `${(g.total_xp % 50) / 50 * 100}%` }}></div>
+                    </div>
+                    <div className="text-[10px] text-right text-slate-500 mt-1">{50 - (g.total_xp % 50)} XP до след. уровня</div>
+                  </div>
                 </div>
                 
-                <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50">
+                <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700/50 glow-emerald">
                   <div className="flex items-center gap-2 text-emerald-400 mb-2">
                     <Calendar className="w-5 h-5" />
                     <span className="font-bold text-sm">Расписание</span>

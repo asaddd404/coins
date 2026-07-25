@@ -18,6 +18,18 @@ class UserResponse(BaseModel):
     coin_balance: Optional[int] = 0
 
 
+class UserPublicResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    nickname: str
+    full_name: str
+    role: str
+    created_at: datetime
+    total_xp: Optional[int] = 0
+    coin_balance: Optional[int] = 0
+
+
 class UserUpdate(BaseModel):
     full_name: Optional[str] = None
     phone: Optional[str] = None

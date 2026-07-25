@@ -3,6 +3,7 @@ import { getGlobalRanking } from '../../api/client';
 import { useAuthStore } from '../../store/authStore';
 import UserProfileModal from '../../components/UserProfileModal';
 import { Trophy, Crown, Medal, Award } from 'lucide-react';
+import { SkeletonGrid } from '../../components/Skeleton';
 
 export default function Rankings() {
   const [rankings, setRankings] = useState([]);
@@ -14,7 +15,7 @@ export default function Rankings() {
     getGlobalRanking().then(res => setRankings(res.data)).catch(console.error).finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="flex justify-center py-12"><div className="animate-pulse text-amber-400">Загрузка рейтинга...</div></div>;
+  if (loading) return <div className="py-12"><SkeletonGrid count={4} className="flex flex-col gap-4" /></div>;
 
   const RankBadge = ({ index }) => {
     if (index === 0) return (
@@ -48,8 +49,52 @@ export default function Rankings() {
       </div>
       
       <div className="glass-card p-2 md:p-6">
+        
+        {/* Podium for Top 3 */}
+        {rankings.length >= 3 && (
+          <div className="flex justify-center items-end gap-2 md:gap-6 mb-12 h-48 mt-8">
+            {/* Silver */}
+            <div className="flex flex-col items-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-xl font-bold text-slate-300 mb-2 border-2 border-slate-400 cursor-pointer" onClick={() => setSelectedUserId(rankings[1].user_id)}>
+                {rankings[1].nickname?.charAt(0)?.toUpperCase()}
+              </div>
+              <div className="text-sm font-bold text-white mb-1 truncate w-20 text-center">{rankings[1].nickname}</div>
+              <div className="text-xs text-slate-400 font-bold mb-2">{rankings[1].total_xp} XP</div>
+              <div className="w-20 h-28 bg-gradient-to-t from-slate-400/5 to-slate-400/20 border-t border-x border-slate-400/30 rounded-t-lg flex justify-center pt-2">
+                <Medal className="w-6 h-6 text-slate-400" />
+              </div>
+            </div>
+            
+            {/* Gold */}
+            <div className="flex flex-col items-center animate-slide-up z-10" style={{ animationDelay: '0.1s' }}>
+              <Crown className="w-8 h-8 text-amber-400 mb-1 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
+              <div className="w-16 h-16 rounded-full bg-slate-700 flex items-center justify-center text-2xl font-bold text-slate-300 mb-2 border-4 border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.3)] cursor-pointer" onClick={() => setSelectedUserId(rankings[0].user_id)}>
+                {rankings[0].nickname?.charAt(0)?.toUpperCase()}
+              </div>
+              <div className="text-base font-bold text-white mb-1 truncate w-24 text-center">{rankings[0].nickname}</div>
+              <div className="text-sm text-amber-400 font-bold mb-2">{rankings[0].total_xp} XP</div>
+              <div className="w-24 h-40 bg-gradient-to-t from-amber-500/10 to-amber-500/30 border-t border-x border-amber-500/50 rounded-t-lg flex justify-center pt-2 shadow-[0_-10px_20px_rgba(251,191,36,0.1)]">
+                <span className="text-2xl font-black text-amber-400/50">1</span>
+              </div>
+            </div>
+            
+            {/* Bronze */}
+            <div className="flex flex-col items-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
+              <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-xl font-bold text-slate-300 mb-2 border-2 border-orange-700 cursor-pointer" onClick={() => setSelectedUserId(rankings[2].user_id)}>
+                {rankings[2].nickname?.charAt(0)?.toUpperCase()}
+              </div>
+              <div className="text-sm font-bold text-white mb-1 truncate w-20 text-center">{rankings[2].nickname}</div>
+              <div className="text-xs text-slate-400 font-bold mb-2">{rankings[2].total_xp} XP</div>
+              <div className="w-20 h-20 bg-gradient-to-t from-orange-700/5 to-orange-700/20 border-t border-x border-orange-700/30 rounded-t-lg flex justify-center pt-2">
+                <Award className="w-6 h-6 text-orange-600" />
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="space-y-3">
           {rankings.map((r, index) => {
+            if (rankings.length >= 3 && index < 3) return null; // Skip top 3 if podium is shown
             const isCurrentUser = r.user_id === user?.id;
             let rowStyle = "bg-slate-800/50 border-slate-700/50";
 
@@ -68,7 +113,8 @@ export default function Rankings() {
             return (
               <div 
                 key={r.user_id} 
-                className={`flex items-center p-4 rounded-xl border transition-all ${rowStyle}`}
+                className={`flex items-center p-4 rounded-xl border transition-all animate-slide-up ${rowStyle}`}
+                style={{ animationDelay: `${(index - 2) * 0.05}s`, animationFillMode: 'both' }}
               >
                 <div className="flex items-center justify-center w-12 mr-4">
                   <RankBadge index={index} />

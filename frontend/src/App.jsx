@@ -4,7 +4,9 @@ import { useAuthStore } from './store/authStore';
 
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
+import ToastContainer from './components/ToastContainer';
 
+import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import StudentDashboard from './pages/student/StudentDashboard';
@@ -45,13 +47,12 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={user ? <Navigate to={getDefaultRoute()} replace /> : <Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         
         <Route element={<ProtectedRoute allowedRoles={['student', 'teacher', 'manager']} />}>
           <Route element={<Layout />}>
-            <Route path="/" element={<Navigate to={getDefaultRoute()} replace />} />
-            
             <Route path="/courses" element={<Courses />} />
             <Route path="/courses/:id" element={<CourseDetail />} />
             <Route path="/rankings" element={<Rankings />} />
@@ -91,6 +92,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 }

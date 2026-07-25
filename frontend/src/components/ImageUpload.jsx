@@ -2,8 +2,10 @@ import { useState, useRef } from 'react';
 import { uploadFile } from '../api/client';
 import { getFullUrl } from '../utils';
 import { Camera } from 'lucide-react';
+import { useToastStore } from '../store/toastStore';
 
 export default function ImageUpload({ value, onChange }) {
+  const toast = useToastStore();
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -16,7 +18,7 @@ export default function ImageUpload({ value, onChange }) {
       const res = await uploadFile(file);
       onChange(res.data.url);
     } catch (err) {
-      alert('Ошибка загрузки: ' + (err.response?.data?.detail || err.message));
+      toast.error('Ошибка загрузки: ' + (err.response?.data?.detail || err.message));
     } finally {
       setLoading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';

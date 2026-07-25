@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import { getAuditLog, cancelGrade } from '../../api/client';
 import Modal from '../../components/Modal';
 import { History, XCircle, Search, Calendar, User, UserCheck, CheckCircle2 } from 'lucide-react';
+import { useToastStore } from '../../store/toastStore';
+
 export default function AdminAudit() {
+  const toast = useToastStore();
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -31,10 +34,10 @@ export default function AdminAudit() {
     try {
       await cancelGrade(selectedGradeId, { reason: cancelReason });
       setCancelModalOpen(false);
-      alert('Оценка отменена, опыт и монеты вычтены.');
+      toast.success('Оценка отменена, опыт и монеты вычтены.');
       loadData();
     } catch (e) {
-      alert(e.response?.data?.detail || 'Ошибка');
+      toast.error(e.response?.data?.detail || 'Ошибка');
     }
   };
 

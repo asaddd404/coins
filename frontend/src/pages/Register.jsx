@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { registerUser } from '../api/client';
+import { useToastStore } from '../store/toastStore';
 
 export default function Register() {
+  const toast = useToastStore();
   const [formData, setFormData] = useState({ phone: '', nickname: '', full_name: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,7 @@ export default function Register() {
       if (!payload.phone) delete payload.phone;
       
       await registerUser(payload);
-      alert('Регистрация успешна! Ваш аккаунт находится на модерации. Ожидайте активации.');
+      toast.success('Регистрация успешна! Ваш аккаунт находится на модерации. Ожидайте активации.');
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.detail || 'Ошибка регистрации');

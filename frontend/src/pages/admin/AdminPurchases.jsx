@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { getPurchases, deliverPurchase, cancelPurchase } from '../../api/client';
 import { User, Clock, CheckCircle2, XCircle } from 'lucide-react';
+import { useToastStore } from '../../store/toastStore';
 
 export default function AdminPurchases() {
+  const toast = useToastStore();
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('pending'); // pending, delivered, cancelled
@@ -25,7 +27,7 @@ export default function AdminPurchases() {
       await deliverPurchase(id);
       fetchPurchases();
     } catch (err) {
-      alert('Ошибка при выдаче');
+      toast.error('Ошибка при выдаче');
     }
   };
 
@@ -35,7 +37,7 @@ export default function AdminPurchases() {
       await cancelPurchase(id);
       fetchPurchases();
     } catch (err) {
-      alert('Ошибка при отмене');
+      toast.error('Ошибка при отмене');
     }
   };
 

@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { getEnrollments, approveEnrollment, rejectEnrollment } from '../api/client';
 import { useAuthStore } from '../store/authStore';
 import { CheckCircle2, XCircle, Clock, Users, BookOpen } from 'lucide-react';
+import { useToastStore } from '../store/toastStore';
 
 export default function Enrollments() {
+  const toast = useToastStore();
   const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('pending');
@@ -30,7 +32,7 @@ export default function Enrollments() {
       await approveEnrollment(id);
       fetchEnrollments();
     } catch (err) {
-      alert(err.response?.data?.detail || 'Ошибка одобрения');
+      toast.error(err.response?.data?.detail || 'Ошибка одобрения');
     }
   };
 
@@ -39,7 +41,7 @@ export default function Enrollments() {
       await rejectEnrollment(id);
       fetchEnrollments();
     } catch (err) {
-      alert(err.response?.data?.detail || 'Ошибка отклонения');
+      toast.error(err.response?.data?.detail || 'Ошибка отклонения');
     }
   };
 

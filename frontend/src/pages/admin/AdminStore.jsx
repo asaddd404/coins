@@ -4,8 +4,10 @@ import Modal from '../../components/Modal';
 import ImageUpload from '../../components/ImageUpload';
 import { getFullUrl } from '../../utils';
 import { Package, Edit2, Trash2, Box, Coins } from 'lucide-react';
+import { useToastStore } from '../../store/toastStore';
 
 export default function AdminStore() {
+  const toast = useToastStore();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -49,7 +51,7 @@ export default function AdminStore() {
       setModalOpen(false);
       fetchItems();
     } catch (err) {
-      alert('Ошибка сохранения');
+      toast.error('Ошибка сохранения');
     }
   };
 
@@ -59,7 +61,7 @@ export default function AdminStore() {
       await deleteStoreItem(id);
       fetchItems();
     } catch (err) {
-      alert('Ошибка удаления');
+      toast.error('Ошибка удаления');
     }
   };
 

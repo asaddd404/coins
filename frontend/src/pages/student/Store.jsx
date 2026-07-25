@@ -3,8 +3,10 @@ import { getStoreItems, purchaseItem } from '../../api/client';
 import { useAuthStore } from '../../store/authStore';
 import { getFullUrl } from '../../utils';
 import { Gift, Coins, ShoppingCart, Package } from 'lucide-react';
+import { useToastStore } from '../../store/toastStore';
 
 export default function Store() {
+  const toast = useToastStore();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState(false);
@@ -24,10 +26,10 @@ export default function Store() {
     setPurchasing(true);
     try {
       await purchaseItem({ item_id: item.id });
-      alert('Покупка успешна! Монеты списаны. Менеджер свяжется с вами для выдачи товара.');
+      toast.success('Покупка успешна! Монеты списаны. Менеджер свяжется с вами для выдачи товара.');
       fetchItems();
     } catch (e) {
-      alert(e.response?.data?.detail || 'Ошибка при покупке. Возможно, не хватает монет или товара нет в наличии.');
+      toast.error(e.response?.data?.detail || 'Ошибка при покупке. Возможно, не хватает монет или товара нет в наличии.');
     } finally {
       setPurchasing(false);
     }

@@ -42,10 +42,9 @@ api.interceptors.response.use(
       } catch (refreshError) {
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-        // Redirect to login smoothly
         window.location.href = '/login';
-        // Return an empty promise that never resolves so components don't throw alerts
-        return new Promise(() => {});
+        // Reject with a silent error so components stop loading
+        return Promise.reject({ __sessionExpired: true, message: 'Session expired' });
       }
     }
     return Promise.reject(error);

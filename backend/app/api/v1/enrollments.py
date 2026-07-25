@@ -104,10 +104,12 @@ def approve_enrollment(
         raise HTTPException(status_code=403, detail="Not teacher of this group")
         
     # Atomic update for spots using SQLite serialization
-    if group.current_count >= group.max_students:
-        raise HTTPException(status_code=409, detail="No available spots in this group")
-        
-    group.current_count += 1
+    rows_updated = db.query(Group).filter(
+        Group.id == req.group_id,
+        Group.current_count < Group.max_students
+    ).update({Group.current_count: Group.current_count + 1}, synchronize_session=False)
+    if rows_updated == 0:
+        raise HTTPException(status_code=409, detail='No available spots in this group')
     req.status = "approved"
     req.reviewed_by = current_user.id
     req.reviewed_at = datetime.utcnow()
