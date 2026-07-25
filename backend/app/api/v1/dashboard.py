@@ -51,8 +51,13 @@ def get_student_dashboard(
             "schedules": schedules
         })
         
-    return {"groups": dashboard_data}
-
+    wallet = db.query(Wallet).filter(Wallet.user_id == current_user.id).first()
+    
+    return {
+        "groups": dashboard_data,
+        "coin_balance": wallet.coin_balance if wallet else 0,
+        "total_xp": wallet.total_xp if wallet else 0
+    }
 from app.core.security import create_parent_token
 from fastapi import Request
 

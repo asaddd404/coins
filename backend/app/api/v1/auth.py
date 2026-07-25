@@ -32,7 +32,7 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
         full_name=data.full_name,
         password_hash=hash_password(data.password),
         role='student',
-        is_active=False
+        is_active=True
     )
     db.add(user)
     db.flush()
@@ -42,7 +42,11 @@ def register(data: RegisterRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(user)
 
-    return {'detail': 'Аккаунт создан. Ожидайте активации менеджером.'}
+    token_data = {'sub': user.id, 'role': user.role}
+    return TokenResponse(
+        access_token=create_access_token(token_data),
+        refresh_token=create_refresh_token(token_data)
+    )
 
 
 @router.post('/login', response_model=TokenResponse, dependencies=[rate_limit(max_calls=10, window_seconds=900)])

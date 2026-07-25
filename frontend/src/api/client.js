@@ -63,6 +63,7 @@ export const resetUserPassword = (id, new_password) => api.patch(`/users/${id}/r
 export const deactivateUser = (id) => api.patch(`/users/${id}/deactivate`, {});
 export const activateUser = (id) => api.patch(`/users/${id}/activate`, {});
 export const deleteUser = (id) => api.delete(`/users/${id}`);
+export const changeUserRole = (id, role) => api.patch(`/users/${id}/role`, { role });
 
 // Dashboard
 export const getStudentDashboard = () => api.get('/dashboard/student');

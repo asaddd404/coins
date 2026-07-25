@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { getNotifications, getUnreadCount, markRead, markAllRead, clearNotifications } from '../api/client';
+import { getNotifications, getUnreadCount, markRead as apiMarkRead, markAllRead as apiMarkAllRead, clearNotifications as apiClearNotifications } from '../api/client';
 
 export const useNotificationStore = create((set, get) => ({
   notifications: [],
@@ -22,7 +22,7 @@ export const useNotificationStore = create((set, get) => ({
 
   markRead: async (id) => {
     try {
-      await markRead(id);
+      await apiMarkRead(id);
       set((state) => ({
         notifications: state.notifications.map(n => n.id === id ? { ...n, is_read: true } : n),
         unreadCount: Math.max(0, state.unreadCount - 1)
@@ -34,7 +34,7 @@ export const useNotificationStore = create((set, get) => ({
 
   markAllRead: async () => {
     try {
-      await markAllRead();
+      await apiMarkAllRead();
       set((state) => ({
         notifications: state.notifications.map(n => ({ ...n, is_read: true })),
         unreadCount: 0
@@ -46,7 +46,7 @@ export const useNotificationStore = create((set, get) => ({
 
   clearAll: async () => {
     try {
-      await clearNotifications();
+      await apiClearNotifications();
       set({ notifications: [], unreadCount: 0 });
     } catch (e) {
       console.error('Error clearing notifications', e);

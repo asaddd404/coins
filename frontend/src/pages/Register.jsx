@@ -19,7 +19,7 @@ export default function Register() {
       if (!payload.phone) delete payload.phone;
       
       await registerUser(payload);
-      toast.success('Регистрация успешна! Ваш аккаунт находится на модерации. Ожидайте активации.');
+      toast.success('Регистрация успешна! Вы можете войти в свой аккаунт.');
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.detail || 'Ошибка регистрации');

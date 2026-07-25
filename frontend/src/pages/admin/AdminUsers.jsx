@@ -59,6 +59,23 @@ export default function AdminUsers() {
     }
   };
 
+  const handleChangeRole = async (user) => {
+    const newRole = window.prompt(`Текущая роль: ${user.role}\nВведите новую роль (student, teacher, manager):`, user.role);
+    if (!newRole || newRole === user.role) return;
+    if (!['student', 'teacher', 'manager'].includes(newRole)) {
+      toast.error('Неверная роль! Допустимы: student, teacher, manager');
+      return;
+    }
+    try {
+      // Need to import changeUserRole at the top
+      await import('../../api/client').then(m => m.changeUserRole(user.id, newRole));
+      toast.success(`Роль изменена на ${newRole}`);
+      fetchUsers();
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Ошибка при изменении роли');
+    }
+  };
+
   const filteredUsers = users.filter(u => {
     const matchesSearch = u.full_name.toLowerCase().includes(search.toLowerCase()) || 
                           u.nickname.toLowerCase().includes(search.toLowerCase()) ||
@@ -114,12 +131,15 @@ export default function AdminUsers() {
                   <div className="text-indigo-400 text-sm">@{user.nickname}</div>
                 </div>
               </div>
-              <span className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider
+              <button 
+                onClick={() => handleChangeRole(user)}
+                title="Нажмите, чтобы изменить роль"
+                className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider cursor-pointer hover:opacity-80 transition-opacity
                   ${user.role === 'manager' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/20' : 
                     user.role === 'teacher' ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/20' : 
                     'bg-slate-700/50 text-slate-300 border border-slate-600/50'}`}>
                   {user.role}
-              </span>
+              </button>
             </div>
             
             <div className="space-y-2 bg-slate-900/50 p-4 rounded-xl border border-slate-700/50">

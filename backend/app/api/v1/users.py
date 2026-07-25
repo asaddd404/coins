@@ -1,6 +1,7 @@
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 from app.core.database import get_db
 from app.core.deps import require_role, get_current_user
 from app.core.security import hash_password
@@ -36,7 +37,7 @@ def get_user(
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail='User not found.')
-    if current_user.role == 'manager' or current_user.id == user_id:
+    if current_user.role in ('manager', 'teacher') or current_user.id == user_id:
         return UserResponse.model_validate(user)
     return UserPublicResponse.model_validate(user)
 
@@ -100,3 +101,23 @@ def delete_user(
         db.rollback()
         raise HTTPException(status_code=409, detail='Cannot delete user due to existing relationships (grades, groups). Deactivate them instead.')
     return {'detail': 'User deleted.'}
+
+
+class ChangeRoleRequest(BaseModel):
+    role: str
+
+@router.patch('/{user_id}/role')
+def change_role(
+    user_id: str,
+    data: ChangeRoleRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role('manager'))
+):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail='User not found.')
+    if data.role not in ('student', 'teacher', 'manager'):
+        raise HTTPException(status_code=400, detail='Invalid role.')
+    user.role = data.role
+    db.commit()
+    return {'detail': f'User role changed to {data.role}.'}

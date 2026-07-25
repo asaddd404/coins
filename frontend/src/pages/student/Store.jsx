@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getStoreItems, purchaseItem } from '../../api/client';
+import { getStoreItems, purchaseItem, getStudentDashboard } from '../../api/client';
 import { useAuthStore } from '../../store/authStore';
 import { getFullUrl } from '../../utils';
 import { Gift, Coins, ShoppingCart, Package } from 'lucide-react';
@@ -8,16 +8,30 @@ import { useToastStore } from '../../store/toastStore';
 export default function Store() {
   const toast = useToastStore();
   const [items, setItems] = useState([]);
+  const [balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState(false);
   const { user } = useAuthStore();
 
-  const fetchItems = () => {
-    getStoreItems().then(res => setItems(res.data)).catch(console.error).finally(() => setLoading(false));
+  const fetchData = async () => {
+    try {
+      const [itemsRes, dashRes] = await Promise.all([
+        getStoreItems(),
+        user?.role === 'student' ? getStudentDashboard() : Promise.resolve({ data: null })
+      ]);
+      setItems(itemsRes.data);
+      if (dashRes.data) {
+        setBalance(dashRes.data.coin_balance || 0);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    fetchItems();
+    fetchData();
   }, []);
 
   const handlePurchase = async (item) => {
@@ -27,7 +41,7 @@ export default function Store() {
     try {
       await purchaseItem({ item_id: item.id });
       toast.success('Покупка успешна! Монеты списаны. Менеджер свяжется с вами для выдачи товара.');
-      fetchItems();
+      fetchData();
     } catch (e) {
       toast.error(e.response?.data?.detail || 'Ошибка при покупке. Возможно, не хватает монет или товара нет в наличии.');
     } finally {
@@ -43,6 +57,10 @@ export default function Store() {
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-orange-500">Магазин наград</h1>
           <p className="text-slate-400 text-sm mt-1">Обменивай заработанные монеты на призы</p>
+        </div>
+        <div className="glass-card px-4 py-2 border-amber-500/30 flex items-center gap-2">
+          <span className="text-sm text-slate-400">Твой баланс:</span>
+          <span className="text-xl font-bold text-amber-400 flex items-center gap-1"><Coins className="w-5 h-5"/> {balance}</span>
         </div>
       </div>
 
@@ -72,11 +90,11 @@ export default function Store() {
               {user?.role === 'student' && (
                 <button
                   onClick={() => handlePurchase(item)}
-                  disabled={purchasing || item.stock <= 0}
+                  disabled={purchasing || item.stock <= 0 || balance < item.price}
                   className="w-full py-2.5 bg-amber-600 hover:bg-amber-500 disabled:bg-slate-700 disabled:text-slate-400 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-2"
                 >
                   <ShoppingCart className="w-4 h-4" />
-                  {item.stock <= 0 ? 'Нет в наличии' : 'Купить'}
+                  {item.stock <= 0 ? 'Нет в наличии' : balance < item.price ? 'Не хватает монет' : 'Купить'}
                 </button>
               )}
             </div>

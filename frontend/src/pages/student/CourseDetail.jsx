@@ -26,6 +26,18 @@ export default function CourseDetail() {
       const [cRes, gRes] = await Promise.all([getCourse(id), getGroups({ course_id: id })]);
       const courseData = cRes.data;
       courseData.groups = gRes.data;
+      
+      // If student, fetch their enrollments to see which groups they already applied to
+      if (user?.role === 'student') {
+        const eRes = await getEnrollments();
+        const myEnrollments = eRes.data; // List of enrollments for this student
+        
+        courseData.groups = courseData.groups.map(g => {
+          const enrollment = myEnrollments.find(e => e.group_id === g.id);
+          return { ...g, my_enrollment_status: enrollment ? enrollment.status : null };
+        });
+      }
+      
       setCourse(courseData);
     } catch (err) {
       console.error(err);
@@ -109,11 +121,19 @@ export default function CourseDetail() {
                 {user?.role === 'student' && (
                   <button 
                     onClick={() => handleEnroll(g.id)}
-                    disabled={enrolling || g.current_count >= g.max_students}
-                    className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 text-white font-medium rounded-xl transition-colors mt-auto flex items-center justify-center gap-2"
+                    disabled={enrolling || g.current_count >= g.max_students || g.my_enrollment_status}
+                    className={`w-full py-2.5 font-medium rounded-xl transition-colors mt-auto flex items-center justify-center gap-2
+                      ${g.my_enrollment_status === 'approved' ? 'bg-emerald-600 text-white cursor-default' : 
+                        g.my_enrollment_status === 'pending' ? 'bg-amber-600 text-white cursor-default' :
+                        g.current_count >= g.max_students ? 'bg-slate-700 text-slate-400 cursor-not-allowed' :
+                        'bg-indigo-600 hover:bg-indigo-500 text-white'
+                      }
+                    `}
                   >
                     <Send className="w-4 h-4" />
-                    {g.current_count >= g.max_students ? 'Мест нет' : 'Подать заявку'}
+                    {g.my_enrollment_status === 'approved' ? 'Вы в группе' :
+                     g.my_enrollment_status === 'pending' ? 'Заявка на рассмотрении' :
+                     g.current_count >= g.max_students ? 'Мест нет' : 'Подать заявку'}
                   </button>
                 )}
               </div>
