@@ -52,3 +52,17 @@ def get_student_dashboard(
         })
         
     return {"groups": dashboard_data}
+
+from app.core.security import create_parent_token
+from fastapi import Request
+
+@router.get("/student/parent-link")
+def get_parent_link(
+    request: Request,
+    current_user: User = Depends(require_role("student"))
+):
+    token = create_parent_token(current_user.id)
+    # Return a relative link that the frontend will construct the full URL from
+    # Or just return the token
+    return {"token": token, "link": f"/parent/{token}"}
+

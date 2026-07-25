@@ -66,6 +66,7 @@ export const deleteUser = (id) => api.delete(`/users/${id}`);
 
 // Dashboard
 export const getStudentDashboard = () => api.get('/dashboard/student');
+export const getParentLink = () => api.get('/dashboard/student/parent-link');
 
 // Courses
 export const getCourses = () => api.get('/courses/');
@@ -120,5 +121,8 @@ export const getUnreadCount = () => api.get('/notifications/unread-count');
 export const markRead = (id) => api.patch(`/notifications/${id}/read`, {});
 export const markAllRead = () => api.patch('/notifications/read-all', {});
 export const clearNotifications = () => api.delete('/notifications/');
+
+// Public
+export const getPublicStudentProgress = (token) => api.get(`/public/student/${token}`);
 
 export default api;

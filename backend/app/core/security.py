@@ -36,3 +36,8 @@ def decode_token(token: str) -> dict | None:
         return payload
     except JWTError:
         return None
+
+def create_parent_token(student_id: str) -> str:
+    expire = datetime.now(timezone.utc) + timedelta(days=365) # Valid for 1 year
+    to_encode = {'sub': student_id, 'type': 'parent', 'exp': expire}
+    return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=ALGORITHM)

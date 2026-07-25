@@ -9,6 +9,7 @@ import ToastContainer from './components/ToastContainer';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ParentView from './pages/ParentView';
 import StudentDashboard from './pages/student/StudentDashboard';
 import Courses from './pages/student/Courses';
 import CourseDetail from './pages/student/CourseDetail';
@@ -50,6 +51,7 @@ function App() {
         <Route path="/" element={user ? <Navigate to={getDefaultRoute()} replace /> : <Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/parent/:token" element={<ParentView />} />
         
         <Route element={<ProtectedRoute allowedRoles={['student', 'teacher', 'manager']} />}>
           <Route element={<Layout />}>

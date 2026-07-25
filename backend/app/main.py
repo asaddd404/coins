@@ -9,7 +9,7 @@ from app.core.security import hash_password
 from app.models.user import User
 from app.models.wallet import Wallet
 
-from app.api.v1 import auth, users, courses, groups, enrollments, lessons, grades, rankings, store, notifications, upload, dashboard
+from app.api.v1 import auth, users, courses, groups, enrollments, lessons, grades, rankings, store, notifications, upload, dashboard, public
 
 app = FastAPI(title='Acaddem LMS', version='1.0.0')
 
@@ -39,6 +39,7 @@ app.include_router(store.router, prefix='/api/v1')
 app.include_router(notifications.router, prefix='/api/v1')
 app.include_router(upload.router, prefix='/api/v1')
 app.include_router(dashboard.router, prefix='/api/v1')
+app.include_router(public.router, prefix='/api/v1')
 
 
 @app.on_event('startup')

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { getStudentDashboard } from '../../api/client';
-import { BookOpen, Calendar, Trophy, User, Clock, ChevronRight } from 'lucide-react';
+import { getStudentDashboard, getParentLink } from '../../api/client';
+import { BookOpen, Calendar, Trophy, User, Clock, ChevronRight, Share2, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SkeletonGrid } from '../../components/Skeleton';
+import { useToastStore } from '../../store/toastStore';
 
 const AnimatedNumber = ({ value }) => {
   const [current, setCurrent] = useState(0);
@@ -32,6 +33,8 @@ const AnimatedNumber = ({ value }) => {
 export default function StudentDashboard() {
   const [data, setData] = useState({ groups: [] });
   const [loading, setLoading] = useState(true);
+  const [sharing, setSharing] = useState(false);
+  const toast = useToastStore();
 
   useEffect(() => {
     getStudentDashboard()
@@ -39,6 +42,20 @@ export default function StudentDashboard() {
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
+
+  const handleShareParentLink = async () => {
+    setSharing(true);
+    try {
+      const res = await getParentLink();
+      const url = window.location.origin + res.data.link;
+      await navigator.clipboard.writeText(url);
+      toast.success('Ссылка для родителей скопирована в буфер обмена!');
+    } catch (e) {
+      toast.error('Не удалось создать ссылку');
+    } finally {
+      setTimeout(() => setSharing(false), 2000);
+    }
+  };
 
   if (loading) return <div className="py-6"><SkeletonGrid count={2} /></div>;
 
@@ -60,16 +77,26 @@ export default function StudentDashboard() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-emerald-400">
             {getGreeting()}
           </h1>
           <p className="text-slate-400 mt-1">Твои текущие группы и прогресс</p>
         </div>
-        <Link to="/courses" className="btn-primary text-sm flex items-center gap-2">
-          <BookOpen className="w-4 h-4" /> Найти новые курсы
-        </Link>
+        <div className="flex items-center gap-3">
+          <button 
+            onClick={handleShareParentLink}
+            disabled={sharing}
+            className="btn-secondary text-sm flex items-center gap-2"
+          >
+            {sharing ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4 text-indigo-400" />}
+            {sharing ? 'Скопировано!' : 'Родительская ссылка'}
+          </button>
+          <Link to="/courses" className="btn-primary text-sm flex items-center gap-2 hidden md:flex">
+            <BookOpen className="w-4 h-4" /> Найти курсы
+          </Link>
+        </div>
       </div>
 
       {data.groups.length === 0 ? (
