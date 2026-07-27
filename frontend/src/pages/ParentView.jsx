@@ -62,7 +62,7 @@ export default function ParentView() {
         {/* Header */}
         <div className="text-center space-y-2">
           <Link to="/" className="text-2xl font-black gradient-text inline-block mb-4 hover:scale-105 transition-transform">
-            Acaddem
+            Zaytuna Coin
           </Link>
           <h1 className="text-3xl font-bold">Прогресс ученика</h1>
           <p className="text-slate-400">Информация для родителей</p>
@@ -70,21 +70,21 @@ export default function ParentView() {
 
         {/* Profile Card */}
         <div className="glass-card p-6 md:p-8 flex flex-col md:flex-row items-center gap-6">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-3xl font-bold shadow-lg shadow-indigo-500/30">
+          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-3xl font-bold shadow-lg shadow-blue-500/30">
             {data.student.full_name.charAt(0)}
           </div>
           <div className="text-center md:text-left flex-1">
             <h2 className="text-2xl font-bold mb-1">{data.student.full_name}</h2>
-            <p className="text-indigo-400">@{data.student.nickname}</p>
+            <p className="text-blue-400">@{data.student.nickname}</p>
           </div>
           <div className="flex gap-4 w-full md:w-auto">
             <div className="flex-1 md:w-32 bg-slate-800/50 rounded-xl p-4 text-center border border-slate-700/50">
-              <div className="flex justify-center mb-1"><Trophy className="text-indigo-400 w-6 h-6" /></div>
+              <div className="flex justify-center mb-1"><Trophy className="text-blue-400 w-6 h-6" /></div>
               <div className="text-xl font-bold">{data.student.total_xp}</div>
               <div className="text-xs text-slate-400">Опыт (XP)</div>
             </div>
             <div className="flex-1 md:w-32 bg-slate-800/50 rounded-xl p-4 text-center border border-slate-700/50">
-              <div className="flex justify-center mb-1"><Coins className="text-emerald-400 w-6 h-6" /></div>
+              <div className="flex justify-center mb-1"><Coins className="text-cyan-400 w-6 h-6" /></div>
               <div className="text-xl font-bold">{data.student.coin_balance}</div>
               <div className="text-xs text-slate-400">Монеты</div>
             </div>
@@ -96,7 +96,7 @@ export default function ParentView() {
           {/* Groups */}
           <div className="md:col-span-1 space-y-4">
             <h3 className="text-xl font-bold flex items-center gap-2">
-              <BookOpen className="text-indigo-400 w-5 h-5" /> Текущие курсы
+              <BookOpen className="text-blue-400 w-5 h-5" /> Текущие курсы
             </h3>
             {data.groups.length > 0 ? (
               data.groups.map((g, i) => (
@@ -130,11 +130,11 @@ export default function ParentView() {
                       </div>
                       <div className="flex items-center gap-3">
                         {grade.xp_earned > 0 && (
-                          <div className="text-emerald-400 text-sm font-medium">+{grade.xp_earned} XP</div>
+                          <div className="text-cyan-400 text-sm font-medium">+{grade.xp_earned} XP</div>
                         )}
                         <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg
-                          ${grade.grade === 5 ? 'bg-emerald-500/20 text-emerald-400' : 
-                            grade.grade === 4 ? 'bg-indigo-500/20 text-indigo-400' : 
+                          ${grade.grade === 5 ? 'bg-cyan-500/20 text-cyan-400' : 
+                            grade.grade === 4 ? 'bg-blue-500/20 text-blue-400' : 
                             'bg-amber-500/20 text-amber-400'}
                         `}>
                           {grade.grade}

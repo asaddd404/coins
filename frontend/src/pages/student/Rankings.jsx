@@ -107,7 +107,7 @@ export default function Rankings() {
             }
 
             if (isCurrentUser) {
-              rowStyle += " ring-2 ring-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.3)]";
+              rowStyle += " ring-2 ring-blue-500 shadow-[0_0_20px_rgba(99,102,241,0.3)]";
             }
 
             return (
@@ -130,7 +130,7 @@ export default function Rankings() {
                   <div className="min-w-0">
                     <h3 className="text-lg font-bold text-white flex items-center gap-2 truncate">
                       {r.nickname}
-                      {isCurrentUser && <span className="px-2 py-0.5 bg-indigo-500/20 text-indigo-400 text-xs rounded border border-indigo-500/30 shrink-0">Вы</span>}
+                      {isCurrentUser && <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-xs rounded border border-blue-500/30 shrink-0">Вы</span>}
                     </h3>
                     <p className="text-sm text-slate-400 truncate">{r.full_name}</p>
                   </div>

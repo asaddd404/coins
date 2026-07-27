@@ -53,7 +53,7 @@ def seed_db():
                 full_name=ud["full_name"],
                 phone=ud["phone"],
                 role=ud["role"],
-                password_hash=hash_password("AcaddemDemo2026!"),
+                password_hash=hash_password("ZaytunaCoin2026!"),
                 created_at=thirty_days_ago
             )
             db.add(user)
@@ -69,7 +69,7 @@ def seed_db():
                 full_name=get_random_name(),
                 phone=get_random_phone(100 + i),
                 role="teacher",
-                password_hash=hash_password("AcaddemDemo2026!"),
+                password_hash=hash_password("ZaytunaCoin2026!"),
                 created_at=thirty_days_ago
             )
             db.add(user)
@@ -85,7 +85,7 @@ def seed_db():
                 full_name=get_random_name(),
                 phone=get_random_phone(200 + i),
                 role="student",
-                password_hash=hash_password("AcaddemDemo2026!"),
+                password_hash=hash_password("ZaytunaCoin2026!"),
                 created_at=thirty_days_ago + timedelta(days=random.randint(0, 5))
             )
             db.add(user)

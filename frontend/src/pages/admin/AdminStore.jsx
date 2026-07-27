@@ -108,7 +108,7 @@ export default function AdminStore() {
               <div className="flex justify-between items-start mb-2">
                 <h3 className="font-bold text-lg text-white">{item.title}</h3>
                 <div className="flex gap-2">
-                  <button onClick={() => openModal(item)} className="text-slate-400 hover:text-indigo-400 bg-slate-900/80 p-2 rounded-lg border border-slate-700 hover:border-indigo-500/50 transition-colors">
+                  <button onClick={() => openModal(item)} className="text-slate-400 hover:text-blue-400 bg-slate-900/80 p-2 rounded-lg border border-slate-700 hover:border-blue-500/50 transition-colors">
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button onClick={() => handleDelete(item.id)} className="text-slate-400 hover:text-red-400 bg-slate-900/80 p-2 rounded-lg border border-slate-700 hover:border-red-500/50 transition-colors">

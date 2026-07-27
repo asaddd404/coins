@@ -55,7 +55,7 @@ export default function Enrollments() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-emerald-400">
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">
           Заявки в группы
         </h1>
         <p className="text-slate-400 text-sm mt-1">
@@ -70,7 +70,7 @@ export default function Enrollments() {
             onClick={() => setStatusFilter(t.id)}
             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
               statusFilter === t.id 
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20' 
+                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20' 
                 : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
             }`}
           >
@@ -80,7 +80,7 @@ export default function Enrollments() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-12"><div className="animate-pulse text-indigo-400">Загрузка...</div></div>
+        <div className="flex justify-center py-12"><div className="animate-pulse text-blue-400">Загрузка...</div></div>
       ) : enrollments.length === 0 ? (
         <div className="glass-card p-12 text-center text-slate-400">
           Заявок в этой категории не найдено.

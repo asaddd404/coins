@@ -36,10 +36,20 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
-      <div className="glass-card w-full max-w-md p-8 animate-fade-in">
-        <h1 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-indigo-400 to-emerald-400 bg-clip-text text-transparent">
-          Acaddem LMS
+    <div className="min-h-screen flex items-center justify-center bg-[#020617] p-4 relative">
+      {/* Background glow */}
+      <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-violet-600/8 rounded-full blur-[120px] pointer-events-none" />
+      
+      <div className="glass-card w-full max-w-md p-8 animate-fade-in relative z-10">
+        {/* Logo */}
+        <div className="flex items-center justify-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+            <span className="text-white font-black text-lg">Z</span>
+          </div>
+        </div>
+        <h1 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          Zaytuna Coin
         </h1>
         <p className="text-slate-400 text-center mb-8">Войдите в свой аккаунт</p>
         
@@ -78,7 +88,7 @@ export default function Login() {
         </form>
         
         <p className="mt-6 text-center text-slate-400">
-          Нет аккаунта? <Link to="/register" className="text-indigo-400 hover:text-indigo-300">Зарегистрироваться</Link>
+          Нет аккаунта? <Link to="/register" className="text-blue-400 hover:text-blue-300">Зарегистрироваться</Link>
         </p>
 
         {/* Quick Demo Login */}
@@ -86,20 +96,20 @@ export default function Login() {
           <p className="text-xs text-center text-slate-500 mb-4 uppercase tracking-widest font-bold">Быстрый вход для демо</p>
           <div className="grid grid-cols-3 gap-2">
             <button 
-              onClick={() => { setLogin('admin'); setPassword('AcaddemDemo2026!'); }} 
-              className="text-xs bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 py-2 rounded-lg border border-purple-500/20 transition-colors"
+              onClick={() => { setLogin('admin'); setPassword('ZaytunaCoin2026!'); }} 
+              className="text-xs bg-violet-500/10 hover:bg-violet-500/20 text-violet-400 py-2 rounded-lg border border-violet-500/20 transition-colors"
             >
               Менеджер
             </button>
             <button 
-              onClick={() => { setLogin('teacher1'); setPassword('AcaddemDemo2026!'); }} 
-              className="text-xs bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 py-2 rounded-lg border border-indigo-500/20 transition-colors"
+              onClick={() => { setLogin('teacher1'); setPassword('ZaytunaCoin2026!'); }} 
+              className="text-xs bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 py-2 rounded-lg border border-blue-500/20 transition-colors"
             >
               Учитель
             </button>
             <button 
-              onClick={() => { setLogin('student1'); setPassword('AcaddemDemo2026!'); }} 
-              className="text-xs bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 py-2 rounded-lg border border-emerald-500/20 transition-colors"
+              onClick={() => { setLogin('student1'); setPassword('ZaytunaCoin2026!'); }} 
+              className="text-xs bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 py-2 rounded-lg border border-cyan-500/20 transition-colors"
             >
               Ученик
             </button>

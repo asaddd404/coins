@@ -34,7 +34,7 @@ function App() {
 
   if (!isInitialized) return (
     <div className="flex items-center justify-center min-h-screen bg-[#0B0F19]">
-      <div className="animate-pulse text-indigo-400 text-lg font-medium">Загрузка...</div>
+      <div className="animate-pulse text-blue-400 text-lg font-medium">Загрузка...</div>
     </div>
   );
 

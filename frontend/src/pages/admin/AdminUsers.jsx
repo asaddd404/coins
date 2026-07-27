@@ -90,17 +90,17 @@ export default function AdminUsers() {
     <div className="space-y-8 animate-fade-in">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
+          <h1 className="text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
             Пользователи
           </h1>
           <p className="text-slate-400 text-sm mt-1">Всего зарегистрировано: {users.length}</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
           <div className="flex bg-slate-800/50 p-1 rounded-xl border border-slate-700/50">
-            <button onClick={() => setRoleFilter('all')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${roleFilter === 'all' ? 'bg-indigo-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Все</button>
-            <button onClick={() => setRoleFilter('student')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${roleFilter === 'student' ? 'bg-indigo-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Ученики</button>
-            <button onClick={() => setRoleFilter('teacher')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${roleFilter === 'teacher' ? 'bg-indigo-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Учителя</button>
-            <button onClick={() => setRoleFilter('manager')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${roleFilter === 'manager' ? 'bg-indigo-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Админы</button>
+            <button onClick={() => setRoleFilter('all')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${roleFilter === 'all' ? 'bg-blue-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Все</button>
+            <button onClick={() => setRoleFilter('student')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${roleFilter === 'student' ? 'bg-blue-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Ученики</button>
+            <button onClick={() => setRoleFilter('teacher')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${roleFilter === 'teacher' ? 'bg-blue-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Учителя</button>
+            <button onClick={() => setRoleFilter('manager')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${roleFilter === 'manager' ? 'bg-blue-500 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Админы</button>
           </div>
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -119,16 +119,16 @@ export default function AdminUsers() {
         {filteredUsers.map(user => (
           <div key={user.id} className="glass-card relative p-6 flex flex-col gap-4 group hover:-translate-y-1 transition-all duration-300">
             {/* Status indicator glow */}
-            <div className={`absolute -top-px left-6 right-6 h-px ${user.is_active ? 'bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent' : 'bg-gradient-to-r from-transparent via-red-500/50 to-transparent'} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+            <div className={`absolute -top-px left-6 right-6 h-px ${user.is_active ? 'bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent' : 'bg-gradient-to-r from-transparent via-red-500/50 to-transparent'} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
             
             <div className="flex justify-between items-start">
               <div className="flex gap-4 items-center">
-                <div className="h-12 w-12 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700/50 text-indigo-400 font-bold text-xl shadow-inner">
+                <div className="h-12 w-12 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700/50 text-blue-400 font-bold text-xl shadow-inner">
                   {user.full_name.charAt(0).toUpperCase()}
                 </div>
                 <div>
                   <div className="font-bold text-lg text-white">{user.full_name}</div>
-                  <div className="text-indigo-400 text-sm">@{user.nickname}</div>
+                  <div className="text-blue-400 text-sm">@{user.nickname}</div>
                 </div>
               </div>
               <button 
@@ -136,7 +136,7 @@ export default function AdminUsers() {
                 title="Нажмите, чтобы изменить роль"
                 className={`px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider cursor-pointer hover:opacity-80 transition-opacity
                   ${user.role === 'manager' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/20' : 
-                    user.role === 'teacher' ? 'bg-indigo-500/20 text-indigo-400 border border-indigo-500/20' : 
+                    user.role === 'teacher' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/20' : 
                     'bg-slate-700/50 text-slate-300 border border-slate-600/50'}`}>
                   {user.role}
               </button>
@@ -153,8 +153,8 @@ export default function AdminUsers() {
 
             <div className="flex justify-between items-center pt-2">
               <span className={`flex items-center gap-2 text-xs font-semibold
-                    ${user.is_active ? 'text-emerald-400' : 'text-red-400'}`}>
-                    <span className={`h-2 w-2 rounded-full ${user.is_active ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-red-400 shadow-[0_0_8px_rgba(248,113,113,0.8)]'}`}></span>
+                    ${user.is_active ? 'text-cyan-400' : 'text-red-400'}`}>
+                    <span className={`h-2 w-2 rounded-full ${user.is_active ? 'bg-cyan-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-red-400 shadow-[0_0_8px_rgba(248,113,113,0.8)]'}`}></span>
                     {user.is_active ? 'Активен' : 'Заблокирован'}
               </span>
               <div className="flex gap-2">
@@ -170,7 +170,7 @@ export default function AdminUsers() {
                   className={`p-2 rounded-lg border transition-colors ${
                     user.is_active 
                       ? 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border-amber-500/20' 
-                      : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border-emerald-500/20'
+                      : 'bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border-cyan-500/20'
                   }`}
                   title={user.is_active ? 'Заблокировать' : 'Разблокировать'}
                 >

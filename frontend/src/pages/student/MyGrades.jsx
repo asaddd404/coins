@@ -19,7 +19,7 @@ export default function MyGrades() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="flex justify-center py-12"><div className="animate-pulse text-indigo-400">Загрузка оценок...</div></div>;
+  if (loading) return <div className="flex justify-center py-12"><div className="animate-pulse text-blue-400">Загрузка оценок...</div></div>;
 
   return (
     <div className="animate-fade-in space-y-6">
@@ -28,12 +28,12 @@ export default function MyGrades() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="glass-card p-6 bg-gradient-to-br from-indigo-900/30 to-slate-900">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
-              <Zap className="w-5 h-5 text-indigo-400" />
+            <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center border border-blue-500/30">
+              <Zap className="w-5 h-5 text-blue-400" />
             </div>
             <h2 className="text-sm text-indigo-300 font-medium uppercase tracking-wider">Ваш опыт (XP)</h2>
           </div>
-          <div className="text-4xl font-bold text-white">{wallet?.total_xp || 0} <span className="text-lg text-indigo-400">XP</span></div>
+          <div className="text-4xl font-bold text-white">{wallet?.total_xp || 0} <span className="text-lg text-blue-400">XP</span></div>
         </div>
         <div className="glass-card p-6 bg-gradient-to-br from-amber-900/30 to-slate-900">
           <div className="flex items-center gap-3 mb-3">
@@ -53,8 +53,8 @@ export default function MyGrades() {
             {grades.map(g => (
               <div key={g.id} className="flex justify-between items-center p-4 bg-slate-800/50 rounded-xl border border-slate-700/50 hover:bg-slate-800 transition-colors">
                 <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${g.grade === 5 ? 'bg-emerald-500/10 border-emerald-500/30' : g.grade === 4 ? 'bg-indigo-500/10 border-indigo-500/30' : 'bg-slate-700/50 border-slate-600/50'}`}>
-                    <Star className={`w-5 h-5 ${g.grade === 5 ? 'text-emerald-400' : g.grade === 4 ? 'text-indigo-400' : 'text-slate-400'}`} />
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center border ${g.grade === 5 ? 'bg-cyan-500/10 border-cyan-500/30' : g.grade === 4 ? 'bg-blue-500/10 border-blue-500/30' : 'bg-slate-700/50 border-slate-600/50'}`}>
+                    <Star className={`w-5 h-5 ${g.grade === 5 ? 'text-cyan-400' : g.grade === 4 ? 'text-blue-400' : 'text-slate-400'}`} />
                   </div>
                   <div>
                     <h3 className="text-base font-medium text-white">{g.lesson_title || 'Урок'}</h3>
@@ -64,7 +64,7 @@ export default function MyGrades() {
                 <div className="flex items-center gap-4">
                   <div className="flex flex-col items-end">
                     <span className="text-xs text-slate-500 mb-0.5">Оценка</span>
-                    <span className={`text-2xl font-bold ${g.grade === 5 ? 'text-emerald-400' : g.grade === 4 ? 'text-indigo-400' : 'text-slate-400'}`}>
+                    <span className={`text-2xl font-bold ${g.grade === 5 ? 'text-cyan-400' : g.grade === 4 ? 'text-blue-400' : 'text-slate-400'}`}>
                       {g.grade}
                     </span>
                   </div>

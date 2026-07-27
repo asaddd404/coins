@@ -29,9 +29,16 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900 p-4">
-      <div className="glass-card w-full max-w-md p-8 animate-fade-in">
-        <h1 className="text-3xl font-bold text-center mb-8 text-white">Регистрация</h1>
+    <div className="min-h-screen flex items-center justify-center bg-[#020617] p-4 relative">
+      <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="glass-card w-full max-w-md p-8 animate-fade-in relative z-10">
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+            <span className="text-white font-black text-lg">Z</span>
+          </div>
+        </div>
+        <h1 className="text-3xl font-bold text-center mb-2 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Регистрация</h1>
+        <p className="text-slate-400 text-center mb-8 text-sm">Создайте аккаунт в Zaytuna Coin</p>
         {error && <div className="bg-red-500/10 border border-red-500/50 text-red-400 p-3 rounded-lg mb-6">{error}</div>}
         
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -73,7 +80,7 @@ export default function Register() {
           </button>
         </form>
         <p className="mt-6 text-center text-slate-400">
-          Уже есть аккаунт? <Link to="/login" className="text-indigo-400">Войти</Link>
+          Уже есть аккаунт? <Link to="/login" className="text-blue-400 hover:text-blue-300">Войти</Link>
         </p>
       </div>
     </div>

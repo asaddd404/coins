@@ -94,7 +94,7 @@ export default function TeacherGroupDetail() {
 
   return (
     <div className="space-y-6">
-      <div className="glass-card p-6 border-l-4 border-indigo-500">
+      <div className="glass-card p-6 border-l-4 border-blue-500">
         <h1 className="text-3xl font-bold mb-2 text-white">{group.title}</h1>
         <div className="flex gap-4 text-sm text-slate-400">
           <span>Студентов: {group.current_count}/{group.max_students}</span>
@@ -104,13 +104,13 @@ export default function TeacherGroupDetail() {
 
       <div className="flex gap-2 border-b border-slate-700/50">
         <button 
-          className={`px-4 py-2 font-medium border-b-2 transition-colors ${activeTab === 'students' ? 'border-indigo-500 text-indigo-400' : 'border-transparent text-slate-400 hover:text-white'}`}
+          className={`px-4 py-2 font-medium border-b-2 transition-colors ${activeTab === 'students' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-white'}`}
           onClick={() => setActiveTab('students')}
         >
           Студенты
         </button>
         <button 
-          className={`px-4 py-2 font-medium border-b-2 transition-colors ${activeTab === 'lessons' ? 'border-indigo-500 text-indigo-400' : 'border-transparent text-slate-400 hover:text-white'}`}
+          className={`px-4 py-2 font-medium border-b-2 transition-colors ${activeTab === 'lessons' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-400 hover:text-white'}`}
           onClick={() => setActiveTab('lessons')}
         >
           Уроки
@@ -137,14 +137,14 @@ export default function TeacherGroupDetail() {
               <div key={s.id} className="glass-card p-4 flex flex-col gap-3">
                 <div>
                   <div className="font-bold text-lg text-white">{s.full_name}</div>
-                  <div className="text-indigo-400 text-sm">@{s.nickname}</div>
+                  <div className="text-blue-400 text-sm">@{s.nickname}</div>
                 </div>
                 {s.phone && (
                   <a 
                     href={`https://wa.me/${s.phone.replace(/[^0-9]/g, '')}`} 
                     target="_blank" 
                     rel="noreferrer" 
-                    className="inline-flex items-center justify-center gap-2 w-full bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 font-medium py-2 rounded-xl border border-emerald-500/30 transition-colors"
+                    className="inline-flex items-center justify-center gap-2 w-full bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 font-medium py-2 rounded-xl border border-cyan-500/30 transition-colors"
                   >
                     <MessageCircle className="w-4 h-4" /> Написать в WhatsApp
                   </a>
@@ -169,7 +169,7 @@ export default function TeacherGroupDetail() {
           
           <div className="space-y-3">
             {lessons.length === 0 ? <p className="text-slate-400">Нет уроков</p> : lessons.map(l => (
-              <div key={l.id} className="glass-card p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-l-4 border-l-emerald-500">
+              <div key={l.id} className="glass-card p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-l-4 border-l-cyan-500">
                 <div>
                   <div className="font-bold text-lg text-white">{l.title}</div>
                   <div className="text-sm text-slate-400">{l.lesson_date || 'Дата не указана'}</div>
@@ -179,7 +179,7 @@ export default function TeacherGroupDetail() {
                     setGradeForm({ student_id: '', lesson_id: l.id, grade: 5 });
                     setGradeModalOpen(true);
                   }}
-                  className="bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-500/30 text-indigo-300 px-4 py-2 rounded-xl transition-colors font-medium whitespace-nowrap flex items-center gap-2"
+                  className="bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/30 text-indigo-300 px-4 py-2 rounded-xl transition-colors font-medium whitespace-nowrap flex items-center gap-2"
                 >
                   <CheckCircle2 className="w-4 h-4" /> Оценить класс
                 </button>
@@ -211,8 +211,8 @@ export default function TeacherGroupDetail() {
                       <div className="text-sm text-slate-400">@{r.nickname}</div>
                     </div>
                   </div>
-                  <div className="font-extrabold text-xl text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                    {r.total_xp} <span className="text-xs text-indigo-500">XP</span>
+                  <div className="font-extrabold text-xl text-blue-400 bg-blue-500/10 px-3 py-1 rounded-lg border border-blue-500/20">
+                    {r.total_xp} <span className="text-xs text-blue-500">XP</span>
                   </div>
                 </div>
               ))}

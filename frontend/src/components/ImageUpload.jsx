@@ -45,7 +45,7 @@ export default function ImageUpload({ value, onChange }) {
       ) : (
         <div 
           onClick={() => fileInputRef.current?.click()}
-          className="border-2 border-dashed border-slate-600 hover:border-indigo-500 rounded-xl h-24 flex flex-col items-center justify-center cursor-pointer transition-colors text-slate-400 hover:text-indigo-400 bg-slate-900/50"
+          className="border-2 border-dashed border-slate-600 hover:border-blue-500 rounded-xl h-24 flex flex-col items-center justify-center cursor-pointer transition-colors text-slate-400 hover:text-blue-400 bg-slate-900/50"
         >
           {loading ? (
             <span className="animate-pulse">Загрузка...</span>

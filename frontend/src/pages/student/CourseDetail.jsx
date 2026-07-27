@@ -73,7 +73,7 @@ export default function CourseDetail() {
     }
   };
 
-  if (loading) return <div className="flex justify-center py-12"><div className="animate-pulse text-indigo-400">Загрузка курса...</div></div>;
+  if (loading) return <div className="flex justify-center py-12"><div className="animate-pulse text-blue-400">Загрузка курса...</div></div>;
   if (!course) return <div className="text-center py-12 text-slate-400">Курс не найден</div>;
 
   return (
@@ -83,7 +83,7 @@ export default function CourseDetail() {
           {course.image_url ? (
             <img src={getFullUrl(course.image_url)} alt={course.title} className="w-full md:w-64 h-48 object-cover rounded-xl" />
           ) : (
-            <div className="w-full md:w-64 h-48 bg-gradient-to-br from-indigo-500/20 to-emerald-500/20 rounded-xl flex items-center justify-center text-indigo-400">
+            <div className="w-full md:w-64 h-48 bg-gradient-to-br from-blue-500/20 to-emerald-500/20 rounded-xl flex items-center justify-center text-blue-400">
               <BookOpen className="w-16 h-16" />
             </div>
           )}
@@ -104,7 +104,7 @@ export default function CourseDetail() {
             {course.groups.map(g => (
               <div key={g.id} className="bg-slate-800/80 p-5 rounded-xl border border-slate-700 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-xl font-bold text-indigo-400 mb-1">{g.title}</h3>
+                  <h3 className="text-xl font-bold text-blue-400 mb-1">{g.title}</h3>
                   <p className="text-slate-400 mb-3 flex items-center gap-2">
                     <Users className="w-4 h-4" /> Преподаватель: {g.teacher_name || 'Не назначен'}
                   </p>
@@ -126,7 +126,7 @@ export default function CourseDetail() {
                       ${g.my_enrollment_status === 'approved' ? 'bg-emerald-600 text-white cursor-default' : 
                         g.my_enrollment_status === 'pending' ? 'bg-amber-600 text-white cursor-default' :
                         g.current_count >= g.max_students ? 'bg-slate-700 text-slate-400 cursor-not-allowed' :
-                        'bg-indigo-600 hover:bg-indigo-500 text-white'
+                        'bg-blue-600 hover:bg-blue-500 text-white'
                       }
                     `}
                   >
@@ -164,8 +164,8 @@ export default function CourseDetail() {
                   <div className="text-sm text-slate-400">@{r.nickname}</div>
                 </div>
               </div>
-              <div className="font-extrabold text-xl text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
-                {r.total_xp} <span className="text-xs text-indigo-500">XP</span>
+              <div className="font-extrabold text-xl text-blue-400 bg-blue-500/10 px-3 py-1 rounded-lg border border-blue-500/20">
+                {r.total_xp} <span className="text-xs text-blue-500">XP</span>
               </div>
             </div>
           ))}

@@ -46,7 +46,7 @@ export default function AdminAudit() {
     l.teacher_name.toLowerCase().includes(search.toLowerCase())
   );
 
-  if (loading) return <div className="flex justify-center p-12"><div className="animate-pulse text-indigo-400">Загрузка...</div></div>;
+  if (loading) return <div className="flex justify-center p-12"><div className="animate-pulse text-blue-400">Загрузка...</div></div>;
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -78,7 +78,7 @@ export default function AdminAudit() {
             
             <div className="flex justify-between items-start relative z-10 mb-4">
               <span className={`px-2.5 py-1 text-[10px] uppercase tracking-wider font-bold rounded border ${
-                log.action === 'created' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 
+                log.action === 'created' ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400' : 
                 log.action === 'updated' ? 'bg-amber-500/10 border-amber-500/30 text-amber-400' : 
                 'bg-red-500/10 border-red-500/30 text-red-400'
               }`}>

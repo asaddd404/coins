@@ -9,17 +9,17 @@ export default function ToastContainer() {
     <div className="fixed top-4 right-4 z-[100] flex flex-col gap-3 pointer-events-none">
       {toasts.map((toast) => {
         const icons = {
-          success: <CheckCircle className="w-5 h-5 text-emerald-500" />,
+          success: <CheckCircle className="w-5 h-5 text-cyan-500" />,
           error: <XCircle className="w-5 h-5 text-red-500" />,
           warning: <AlertTriangle className="w-5 h-5 text-amber-500" />,
-          info: <Info className="w-5 h-5 text-indigo-500" />
+          info: <Info className="w-5 h-5 text-blue-500" />
         };
         
         const borders = {
-          success: 'border-l-emerald-500',
+          success: 'border-l-cyan-500',
           error: 'border-l-red-500',
           warning: 'border-l-amber-500',
-          info: 'border-l-indigo-500'
+          info: 'border-l-blue-500'
         };
 
         return (

@@ -72,7 +72,7 @@ export default function AdminPurchases() {
           Ожидают выдачи <span className={`px-2 py-0.5 rounded-full text-xs ${activeTab === 'pending' ? 'bg-white/20 text-white' : 'bg-slate-700 text-slate-300'}`}>{pending.length}</span>
         </button>
         <button 
-          className={`px-4 py-2 font-bold rounded-xl transition-colors flex items-center gap-2 ${activeTab === 'delivered' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
+          className={`px-4 py-2 font-bold rounded-xl transition-colors flex items-center gap-2 ${activeTab === 'delivered' ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/20' : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'}`}
           onClick={() => setActiveTab('delivered')}
         >
           Выдано <span className={`px-2 py-0.5 rounded-full text-xs ${activeTab === 'delivered' ? 'bg-white/20 text-white' : 'bg-slate-700 text-slate-300'}`}>{delivered.length}</span>
@@ -96,7 +96,7 @@ export default function AdminPurchases() {
             {/* Background glow based on status */}
             <div className={`absolute -right-10 -top-10 w-32 h-32 blur-3xl opacity-20 rounded-full ${
               purchase.status === 'pending_delivery' ? 'bg-amber-500' : 
-              purchase.status === 'delivered' ? 'bg-emerald-500' : 'bg-red-500'
+              purchase.status === 'delivered' ? 'bg-cyan-500' : 'bg-red-500'
             }`}></div>
 
             <div className="flex justify-between items-start relative z-10">
@@ -120,7 +120,7 @@ export default function AdminPurchases() {
               <div className="flex flex-col sm:flex-row gap-2 pt-2 mt-auto relative z-10">
                 <button 
                   onClick={() => handleDeliver(purchase.id)}
-                  className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2 px-3 rounded-xl shadow-lg shadow-emerald-500/20 transition-all active:scale-95"
+                  className="flex-1 flex items-center justify-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-white font-bold py-2 px-3 rounded-xl shadow-lg shadow-cyan-500/20 transition-all active:scale-95"
                 >
                   <CheckCircle2 className="w-4 h-4" /> Выдать
                 </button>
@@ -134,7 +134,7 @@ export default function AdminPurchases() {
             )}
             
             {purchase.status === 'delivered' && (
-               <div className="pt-2 mt-auto text-emerald-400 font-bold text-sm text-center relative z-10 flex items-center justify-center gap-2">
+               <div className="pt-2 mt-auto text-cyan-400 font-bold text-sm text-center relative z-10 flex items-center justify-center gap-2">
                  <CheckCircle2 className="w-4 h-4" /> Успешно выдано
                </div>
             )}

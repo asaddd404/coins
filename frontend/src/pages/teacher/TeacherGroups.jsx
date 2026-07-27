@@ -26,7 +26,7 @@ export default function TeacherGroups() {
           <div key={g.id} className="glass-card p-6 flex flex-col transition-transform hover:-translate-y-1 duration-300">
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h2 className="text-xl font-bold text-indigo-400 mb-1">{g.title}</h2>
+                <h2 className="text-xl font-bold text-blue-400 mb-1">{g.title}</h2>
                 <p className="text-sm text-slate-400">Курс ID: {g.course_id}</p>
               </div>
               <div className="px-3 py-1 bg-slate-800 rounded-full text-sm border border-slate-700">
@@ -50,7 +50,7 @@ export default function TeacherGroups() {
 
             <Link 
               to={`/teacher/groups/${g.id}`} 
-              className="w-full text-center py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg transition-colors"
+              className="w-full text-center py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-colors"
             >
               Управление группой
             </Link>

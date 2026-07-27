@@ -119,7 +119,7 @@ export default function AdminCourses() {
     <div className="space-y-6 animate-fade-in">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-emerald-400">
+          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
             Каталог курсов
           </h1>
           <p className="text-slate-400 text-sm mt-1">Управляйте курсами и потоками</p>
@@ -128,7 +128,7 @@ export default function AdminCourses() {
           <button onClick={() => openCourseModal()} className="btn-primary py-2 px-4 flex-1 md:flex-none">
             + Курс
           </button>
-          <button onClick={() => openGroupModal()} className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 px-4 rounded-xl transition-colors shadow-lg flex-1 md:flex-none">
+          <button onClick={() => openGroupModal()} className="bg-emerald-600 hover:bg-cyan-500 text-white font-semibold py-2 px-4 rounded-xl transition-colors shadow-lg flex-1 md:flex-none">
             + Группа
           </button>
         </div>
@@ -158,7 +158,7 @@ export default function AdminCourses() {
               >
                 <div className="flex items-center gap-4">
                   {!course.image_url && (
-                    <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400 border border-indigo-500/30">
+                    <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 border border-blue-500/30">
                       <Book className="w-6 h-6" />
                     </div>
                   )}
@@ -168,7 +168,7 @@ export default function AdminCourses() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button onClick={(e) => { e.stopPropagation(); openCourseModal(course); }} className="text-slate-400 hover:text-indigo-400 p-2 bg-slate-800 rounded-lg border border-slate-700 hover:border-indigo-500/50 transition-colors">
+                  <button onClick={(e) => { e.stopPropagation(); openCourseModal(course); }} className="text-slate-400 hover:text-blue-400 p-2 bg-slate-800 rounded-lg border border-slate-700 hover:border-blue-500/50 transition-colors">
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button onClick={(e) => { e.stopPropagation(); handleDeleteCourse(course.id); }} className="text-slate-400 hover:text-red-400 p-2 bg-slate-800 rounded-lg border border-slate-700 hover:border-red-500/50 transition-colors">
@@ -187,12 +187,12 @@ export default function AdminCourses() {
                     {courseGroups.length === 0 ? <p className="text-slate-500 text-sm">Нет групп</p> : courseGroups.map(g => (
                       <div key={g.id} className="bg-slate-800/80 rounded-lg p-3 flex justify-between items-center text-sm border border-slate-700 hover:border-slate-600 transition-colors">
                         <div>
-                          <div className="font-medium text-emerald-400">{g.title}</div>
+                          <div className="font-medium text-cyan-400">{g.title}</div>
                           <div className="text-xs text-slate-400">Препод: {g.teacher_name}</div>
                           <div className="text-xs text-slate-500">{g.current_count}/{g.max_students} мест</div>
                         </div>
                         <div className="flex gap-2">
-                          <button onClick={() => openGroupModal(g)} className="text-slate-500 hover:text-indigo-400 p-1.5 bg-slate-900 rounded-md">
+                          <button onClick={() => openGroupModal(g)} className="text-slate-500 hover:text-blue-400 p-1.5 bg-slate-900 rounded-md">
                             <Edit2 className="w-3 h-3" />
                           </button>
                           <button onClick={() => handleDeleteGroup(g.id)} className="text-slate-500 hover:text-red-400 p-1.5 bg-slate-900 rounded-md">

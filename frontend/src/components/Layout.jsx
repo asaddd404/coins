@@ -10,7 +10,7 @@ import {
 const navLinkClass = ({ isActive }) => 
   `flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${
     isActive 
-      ? 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/20 shadow-sm' 
+      ? 'bg-blue-500/15 text-blue-400 border border-blue-500/20 shadow-sm' 
       : 'text-slate-300 hover:bg-slate-800/80 hover:text-white'
   }`;
 
@@ -90,7 +90,7 @@ export default function Layout() {
         <h3 className="text-sm font-bold text-white">Уведомления</h3>
         <div className="flex gap-3">
           {unreadCount > 0 && (
-            <button onClick={handleMarkAllRead} className="text-xs text-indigo-400 hover:text-indigo-300 font-medium flex items-center gap-1">
+            <button onClick={handleMarkAllRead} className="text-xs text-blue-400 hover:text-indigo-300 font-medium flex items-center gap-1">
               <CheckCheck className="w-3.5 h-3.5" /> Прочитать все
             </button>
           )}
@@ -114,7 +114,7 @@ export default function Layout() {
               }`}
             >
               <div className="flex items-start gap-3">
-                {!n.is_read && <div className="w-2 h-2 rounded-full bg-indigo-500 mt-1.5 shrink-0" />}
+                {!n.is_read && <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0" />}
                 <div className={!n.is_read ? '' : 'pl-5'}>
                   <div className="text-sm font-medium text-white">{n.title}</div>
                   <div className="text-xs text-slate-400 mt-0.5 line-clamp-2">{n.message}</div>
@@ -132,8 +132,8 @@ export default function Layout() {
     <div className="min-h-screen text-slate-100 flex flex-col md:flex-row bg-[#0B0F19]">
       {/* Mobile Header */}
       <div className="md:hidden flex items-center justify-between p-4 bg-slate-900/90 backdrop-blur-md border-b border-slate-700/50 sticky top-0 z-50">
-        <div className="text-xl font-black bg-gradient-to-r from-indigo-400 to-emerald-400 bg-clip-text text-transparent">
-          Acaddem
+        <div className="text-xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+          Zaytuna Coin
         </div>
         <div className="flex items-center gap-3">
           <div className="relative" ref={isNotifOpen ? notifRef : undefined}>
@@ -163,8 +163,8 @@ export default function Layout() {
         ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
       `}>
         <div className="flex items-center justify-between p-6 border-b border-slate-700/50">
-          <div className="text-3xl font-black bg-gradient-to-r from-indigo-400 to-emerald-400 bg-clip-text text-transparent">
-            Acaddem
+          <div className="text-3xl font-black bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            Zaytuna Coin
           </div>
           <button 
             className="md:hidden text-slate-400 hover:text-white p-1"
@@ -177,18 +177,18 @@ export default function Layout() {
         <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
           {user?.role === 'student' && (
             <NavLink to="/dashboard" className={navLinkClass}>
-              <Home className="w-5 h-5 text-indigo-400 shrink-0" /> Главная
+              <Home className="w-5 h-5 text-blue-400 shrink-0" /> Главная
             </NavLink>
           )}
           
           <NavLink to="/courses" className={navLinkClass}>
-            <BookOpen className="w-5 h-5 text-emerald-400 shrink-0" /> Каталог Курсов
+            <BookOpen className="w-5 h-5 text-cyan-400 shrink-0" /> Каталог Курсов
           </NavLink>
 
           {user?.role === 'student' && (
             <>
               <NavLink to="/grades" className={navLinkClass}>
-                <GraduationCap className="w-5 h-5 text-purple-400 shrink-0" /> Мои Оценки
+                <GraduationCap className="w-5 h-5 text-violet-400 shrink-0" /> Мои Оценки
               </NavLink>
               <NavLink to="/store" className={navLinkClass}>
                 <ShoppingBag className="w-5 h-5 text-amber-400 shrink-0" /> Магазин Наград
@@ -199,10 +199,10 @@ export default function Layout() {
           {user?.role === 'teacher' && (
             <>
               <NavLink to="/teacher/groups" className={navLinkClass}>
-                <Users className="w-5 h-5 text-indigo-400 shrink-0" /> Мои Группы
+                <Users className="w-5 h-5 text-blue-400 shrink-0" /> Мои Группы
               </NavLink>
               <NavLink to="/enrollments" className={navLinkClass}>
-                <FileText className="w-5 h-5 text-emerald-400 shrink-0" /> Заявки учеников
+                <FileText className="w-5 h-5 text-cyan-400 shrink-0" /> Заявки учеников
               </NavLink>
             </>
           )}
@@ -211,13 +211,13 @@ export default function Layout() {
             <>
               <div className="pt-4 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest pl-4">Управление</div>
               <NavLink to="/admin/users" className={navLinkClass}>
-                <Users className="w-5 h-5 text-purple-400 shrink-0" /> Пользователи
+                <Users className="w-5 h-5 text-violet-400 shrink-0" /> Пользователи
               </NavLink>
               <NavLink to="/admin/courses" className={navLinkClass}>
-                <BookOpen className="w-5 h-5 text-purple-400 shrink-0" /> Управление Курсами
+                <BookOpen className="w-5 h-5 text-violet-400 shrink-0" /> Управление Курсами
               </NavLink>
               <NavLink to="/enrollments" className={navLinkClass}>
-                <FileText className="w-5 h-5 text-emerald-400 shrink-0" /> Заявки учеников
+                <FileText className="w-5 h-5 text-cyan-400 shrink-0" /> Заявки учеников
               </NavLink>
               <NavLink to="/admin/store" className={navLinkClass}>
                 <ShoppingBag className="w-5 h-5 text-amber-400 shrink-0" /> Склад Магазина
@@ -226,7 +226,7 @@ export default function Layout() {
                 <ShoppingCart className="w-5 h-5 text-amber-400 shrink-0" /> Заказы
               </NavLink>
               <NavLink to="/admin/audit" className={navLinkClass}>
-                <ShieldCheck className="w-5 h-5 text-purple-400 shrink-0" /> Аудит Оценок
+                <ShieldCheck className="w-5 h-5 text-violet-400 shrink-0" /> Аудит Оценок
               </NavLink>
             </>
           )}
@@ -239,7 +239,7 @@ export default function Layout() {
         
         <div className="p-5 border-t border-slate-700/50 bg-slate-900/80">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400 font-bold border border-indigo-500/30 text-lg">
+            <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold border border-blue-500/30 text-lg">
               {user?.full_name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
             <div className="overflow-hidden">
