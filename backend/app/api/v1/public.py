@@ -52,7 +52,7 @@ def get_public_student_progress(token: str, db: Session = Depends(get_db)):
     student_groups = db.query(StudentGroup).filter(StudentGroup.student_id == student.id).all()
     groups_data = []
     for sg in student_groups:
-        group = db.query(Group).filter(Group.id == sg.group_id).first()
+        group = db.query(Group).filter(Group.id == sg.group_id, Group.is_active == True).first()
         if group:
             course = db.query(Course).filter(Course.id == group.course_id).first()
             teacher = db.query(User).filter(User.id == group.teacher_id).first()

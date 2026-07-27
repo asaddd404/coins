@@ -41,7 +41,7 @@ def get_course(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    course = db.query(Course).filter(Course.id == course_id).first()
+    course = db.query(Course).filter(Course.id == course_id, Course.is_active == True).first()
     if not course:
         raise HTTPException(status_code=404, detail='Course not found.')
     return course

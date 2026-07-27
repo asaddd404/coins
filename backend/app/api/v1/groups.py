@@ -41,7 +41,7 @@ def list_groups(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    query = db.query(Group).options(joinedload(Group.schedules), joinedload(Group.teacher))
+    query = db.query(Group).options(joinedload(Group.schedules), joinedload(Group.teacher)).filter(Group.is_active == True)
     if course_id:
         query = query.filter(Group.course_id == course_id)
     if teacher_id:
@@ -101,7 +101,7 @@ def get_group(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    group = db.query(Group).options(joinedload(Group.schedules), joinedload(Group.teacher)).filter(Group.id == group_id).first()
+    group = db.query(Group).options(joinedload(Group.schedules), joinedload(Group.teacher)).filter(Group.id == group_id, Group.is_active == True).first()
     if not group:
         raise HTTPException(status_code=404, detail='Group not found.')
     if current_user.role == 'teacher' and group.teacher_id != current_user.id:

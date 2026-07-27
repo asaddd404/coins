@@ -18,7 +18,7 @@ def get_student_dashboard(
     dashboard_data = []
     
     for sg in student_groups:
-        group = db.query(Group).filter(Group.id == sg.group_id).first()
+        group = db.query(Group).filter(Group.id == sg.group_id, Group.is_active == True).first()
         if not group:
             continue
             
