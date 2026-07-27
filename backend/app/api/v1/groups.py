@@ -226,10 +226,13 @@ def add_student_to_group(
     if existing:
         raise HTTPException(status_code=400, detail='Студент уже в группе.')
         
-    if group.current_count >= group.max_students:
+    rows_updated = db.query(Group).filter(
+        Group.id == group_id,
+        Group.current_count < Group.max_students
+    ).update({Group.current_count: Group.current_count + 1}, synchronize_session=False)
+
+    if rows_updated == 0:
         raise HTTPException(status_code=409, detail='Нет свободных мест.')
-        
-    group.current_count += 1
     sg = StudentGroup(student_id=student.id, group_id=group.id)
     db.add(sg)
     db.commit()

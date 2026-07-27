@@ -65,7 +65,7 @@ def delete_item(
     item = db.query(StoreItem).filter(StoreItem.id == item_id).first()
     if not item:
         raise HTTPException(status_code=404, detail='Item not found.')
-    db.delete(item)
+    item.is_active = False
     db.commit()
     return {'detail': 'Item deleted.'}
 
@@ -95,7 +95,16 @@ def purchase_item(
     if rows_updated == 0:
         raise HTTPException(status_code=409, detail='Item out of stock.')
 
-    wallet.coin_balance -= item.price
+    # Atomic coin deduction
+    wallet_updated = db.query(Wallet).filter(
+        Wallet.user_id == current_user.id,
+        Wallet.coin_balance >= item.price
+    ).update({Wallet.coin_balance: Wallet.coin_balance - item.price}, synchronize_session=False)
+
+    if wallet_updated == 0:
+        # Revert stock decrement if wallet deduction failed (e.g., balance changed)
+        db.query(StoreItem).filter(StoreItem.id == item.id).update({StoreItem.stock: StoreItem.stock + 1}, synchronize_session=False)
+        raise HTTPException(status_code=400, detail='Insufficient coin balance.')
 
     purchase = Purchase(
         student_id=current_user.id,
