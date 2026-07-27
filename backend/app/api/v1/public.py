@@ -48,17 +48,29 @@ def get_public_student_progress(token: str, db: Session = Depends(get_db)):
             "date": grade.created_at.isoformat()
         })
         
-    # Get current groups
+    # Get current groups and teacher info
     student_groups = db.query(StudentGroup).filter(StudentGroup.student_id == student.id).all()
     groups_data = []
     for sg in student_groups:
         group = db.query(Group).filter(Group.id == sg.group_id).first()
         if group:
             course = db.query(Course).filter(Course.id == group.course_id).first()
+            teacher = db.query(User).filter(User.id == group.teacher_id).first()
             groups_data.append({
                 "title": group.title,
-                "course_type": course.course_type if course else "online"
+                "course_type": course.course_type if course else "online",
+                "teacher": {
+                    "full_name": teacher.full_name if teacher else "Unknown",
+                    "nickname": teacher.nickname if teacher else "",
+                    "whatsapp_url": teacher.whatsapp_url if teacher else None
+                }
             })
+
+    # Calculate global rank
+    higher_ranked = db.query(Wallet).filter(
+        Wallet.total_xp > (wallet.total_xp if wallet else 0)
+    ).count()
+    global_rank = higher_ranked + 1
             
     return {
         "student": {
@@ -66,6 +78,7 @@ def get_public_student_progress(token: str, db: Session = Depends(get_db)):
             "nickname": student.nickname,
             "total_xp": wallet.total_xp if wallet else 0,
             "coin_balance": wallet.coin_balance if wallet else 0,
+            "global_rank": global_rank
         },
         "recent_grades": grades_data,
         "groups": groups_data

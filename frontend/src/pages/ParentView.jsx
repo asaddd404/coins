@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getPublicStudentProgress } from '../api/client';
-import { Trophy, Coins, Calendar, BookOpen, Star, AlertTriangle } from 'lucide-react';
+import { Trophy, Coins, Calendar, BookOpen, Star, AlertTriangle, Award, Users } from 'lucide-react';
 import { SkeletonCard, SkeletonText, SkeletonAvatar } from '../components/Skeleton';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
@@ -88,6 +88,11 @@ export default function ParentView() {
               <div className="text-xl font-bold">{data.student.coin_balance}</div>
               <div className="text-xs text-slate-400">Монеты</div>
             </div>
+            <div className="flex-1 md:w-32 bg-slate-800/50 rounded-xl p-4 text-center border border-slate-700/50">
+              <div className="flex justify-center mb-1"><Award className="text-amber-400 w-6 h-6" /></div>
+              <div className="text-xl font-bold">#{data.student.global_rank}</div>
+              <div className="text-xs text-slate-400">В рейтинге</div>
+            </div>
           </div>
         </div>
 
@@ -101,8 +106,19 @@ export default function ParentView() {
             {data.groups.length > 0 ? (
               data.groups.map((g, i) => (
                 <div key={i} className="glass-card p-4">
-                  <div className="font-semibold">{g.title}</div>
-                  <div className="text-sm text-slate-400 mt-1 capitalize">{g.course_type} формат</div>
+                  <div className="font-semibold text-lg">{g.title}</div>
+                  <div className="text-sm text-slate-400 mb-3 capitalize">{g.course_type} формат</div>
+                  {g.teacher && (
+                    <div className="mt-3 pt-3 border-t border-slate-700/50 flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold">
+                        {g.teacher.full_name.charAt(0)}
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-slate-200">{g.teacher.full_name}</div>
+                        <div className="text-xs text-slate-500">Преподаватель</div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))
             ) : (
