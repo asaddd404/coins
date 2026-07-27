@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { registerUser } from '../api/client';
+import { registerUser, getMe } from '../api/client';
 import { useToastStore } from '../store/toastStore';
+import { useAuthStore } from '../store/authStore';
 
 export default function Register() {
   const toast = useToastStore();
@@ -9,6 +10,7 @@ export default function Register() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login: setAuth } = useAuthStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,9 +20,18 @@ export default function Register() {
       const payload = { ...formData };
       if (!payload.phone) delete payload.phone;
       
-      await registerUser(payload);
-      toast.success('Регистрация успешна! Вы можете войти в свой аккаунт.');
-      navigate('/login');
+      const res = await registerUser(payload);
+      const tokens = res.data;
+      
+      // Auto-login: save tokens and fetch user
+      localStorage.setItem('access_token', tokens.access_token);
+      localStorage.setItem('refresh_token', tokens.refresh_token);
+      
+      const userRes = await getMe();
+      setAuth(tokens, userRes.data);
+      
+      toast.success('Добро пожаловать в Zaytuna Coin! 🎉');
+      navigate('/');
     } catch (err) {
       setError(err.response?.data?.detail || 'Ошибка регистрации');
     } finally {
