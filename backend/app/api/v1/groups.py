@@ -5,6 +5,8 @@ from app.core.database import get_db
 from app.core.deps import get_current_user, require_role
 from app.models.user import User
 from app.models.course import Course, Group, Schedule, StudentGroup
+from app.models.enrollment import EnrollmentRequest
+from app.models.notification import Notification
 from app.schemas.course import GroupCreate, GroupUpdate, GroupResponse, ScheduleSlot
 from app.schemas.user import UserResponse
 from pydantic import BaseModel
@@ -156,11 +158,47 @@ def delete_group(
     group = db.query(Group).filter(Group.id == group_id).first()
     if not group:
         raise HTTPException(status_code=404, detail='Group not found.')
-    db.query(StudentGroup).filter(StudentGroup.group_id == group_id).delete()
+        
+    group.is_active = False
+    
+    # 1. Notify teacher
+    db.add(Notification(
+        user_id=group.teacher_id,
+        type='system',
+        title='Группа закрыта',
+        message=f'Ваша группа "{group.title}" была закрыта менеджером.'
+    ))
+    
+    # 2. Reject pending enrollments & notify
+    pending_enrollments = db.query(EnrollmentRequest).filter(
+        EnrollmentRequest.group_id == group_id,
+        EnrollmentRequest.status == 'pending'
+    ).all()
+    for req in pending_enrollments:
+        req.status = 'rejected'
+        req.reviewed_by = current_user.id
+        db.add(Notification(
+            user_id=req.student_id,
+            type='enrollment_rejected',
+            title='Заявка отклонена',
+            message=f'Группа "{group.title}" была закрыта. Ваша заявка отклонена.'
+        ))
+        
+    # 3. Remove enrolled students & notify
+    student_groups = db.query(StudentGroup).filter(StudentGroup.group_id == group_id).all()
+    for sg in student_groups:
+        db.add(Notification(
+            user_id=sg.student_id,
+            type='system',
+            title='Группа закрыта',
+            message=f'Группа "{group.title}" закрыта. Ваше обучение в этой группе завершено.'
+        ))
+        db.delete(sg)
+        
+    group.current_count = 0
     db.query(Schedule).filter(Schedule.group_id == group_id).delete()
-    db.delete(group)
     db.commit()
-    return {'detail': 'Group deleted.'}
+    return {'detail': 'Group deactivated and all related users notified.'}
 
 
 @router.post('/{group_id}/students', response_model=UserResponse)
@@ -217,8 +255,17 @@ def remove_student_from_group(
         
     group.current_count = max(0, group.current_count - 1)
     db.delete(sg)
+    
+    # Notify student
+    db.add(Notification(
+        user_id=student_id,
+        type='system',
+        title='Исключение из группы',
+        message=f'Вы были исключены из группы "{group.title}".'
+    ))
+    
     db.commit()
-    return {'detail': 'Студент исключен из группы.'}
+    return {'detail': 'Студент исключен из группы и уведомлен.'}
 
 
 @router.post('/{group_id}/schedules', response_model=GroupResponse, status_code=201)

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getCourse, createEnrollment, getGroupRanking, getGroups } from '../../api/client';
+import { getCourse, createEnrollment, getGroupRanking, getGroups, getEnrollments } from '../../api/client';
 import { useAuthStore } from '../../store/authStore';
 import { getFullUrl } from '../../utils';
 import Modal from '../../components/Modal';
